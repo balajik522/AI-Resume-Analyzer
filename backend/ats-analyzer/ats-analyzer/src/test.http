@@ -1,0 +1,33 @@
+### Curl example: upload `resume.pdf` to the backend
+### Run in a terminal:
+curl -v -F "file=@./resume.pdf" http://localhost:8081/api/resume/upload
+
+### VS Code REST Client example (multipart with file contents)
+POST http://localhost:8081/api/resume/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="resume.pdf"
+Content-Type: application/pdf
+
+< ./resume.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Match resume to job description (cURL)
+curl -v -F "resume=@./resume.pdf" -F "job=@./job.txt" http://localhost:8081/api/resume/match
+
+### REST Client example (match)
+POST http://localhost:8081/api/resume/match
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="resume"; filename="resume.pdf"
+Content-Type: application/pdf
+
+< ./resume.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="job"; filename="job.txt"
+Content-Type: text/plain
+
+< ./job.txt
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

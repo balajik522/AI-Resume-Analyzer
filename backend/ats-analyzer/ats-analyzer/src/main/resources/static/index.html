@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Resume Analyzer</title>
+    <script type="module" crossorigin src="/assets/index-GVQnWFnu.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Cx6L2HAG.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      console.log('inline-check: index.html loaded');
+      window.addEventListener('error', function(e){
+        try{
+          var pre=document.createElement('pre');
+          pre.style.whiteSpace='pre-wrap';
+          pre.style.color='red';
+          pre.textContent='JS ERROR: '+e.message+'\n'+(e.filename||'')+':'+e.lineno+':'+e.colno+'\n'+(e.error&&e.error.stack?e.error.stack:'');
+          document.body.appendChild(pre);
+        }catch(err){console.error(err)}
+      });
+      window.addEventListener('unhandledrejection', function(ev){
+        try{
+          var pre=document.createElement('pre');
+          pre.style.whiteSpace='pre-wrap';
+          pre.style.color='red';
+          pre.textContent='UNHANDLED REJECTION: '+(ev.reason&&ev.reason.stack?ev.reason.stack:ev.reason);
+          document.body.appendChild(pre);
+        }catch(err){console.error(err)}
+      });
+      setTimeout(function(){
+        try{
+          var root=document.getElementById('root');
+          if(root && root.innerHTML.trim()===''){
+            var div=document.createElement('div');
+            div.style.padding='20px';
+            div.style.background='#fff8f8';
+            div.style.border='1px solid #f5c2c2';
+            div.innerHTML='<h3 style="color:#b31">App did not render.</h3><p>Open DevTools console for details — runtime errors will also be shown below.</p>';
+            document.body.appendChild(div);
+          }
+        }catch(err){console.error(err)}
+      },1000);
+      // Additional diagnostics: try fetching bundles and display statuses
+      (function(){
+        function addLine(text){
+          try{
+            var d=document.getElementById('diag');
+            if(!d){d=document.createElement('div');d.id='diag';d.style.padding='12px';d.style.margin='12px';d.style.background='#fff';d.style.border='1px solid #ddd';d.style.fontFamily='monospace';d.style.whiteSpace='pre-wrap';document.body.appendChild(d);} 
+            d.textContent += text + '\n';
+          }catch(e){console.error(e)}
+        }
+        addLine('diagnostic: starting asset checks...');
+        var assets=['/assets/index-GVQnWFnu.js','/assets/index-Cx6L2HAG.css'];
+        assets.forEach(function(u){
+          fetch(u, {method:'GET',cache:'no-store'}).then(function(r){
+            addLine('fetch '+u+' -> '+r.status+' '+r.statusText+' ('+r.headers.get('content-type')+')');
+            if(r.ok && u.endsWith('.js')){
+              r.text().then(function(t){
+                addLine('bundle size: '+t.length+' bytes');
+                // look for common runtime error markers
+                if(t.indexOf('console.error')!==-1) addLine('note: bundle contains console.error calls');
+              }).catch(function(e){addLine('error reading '+u+': '+e)});
+            }
+          }).catch(function(err){addLine('fetch '+u+' failed: '+err);});
+        });
+        // show basic environment info
+        try{ addLine('navigator: '+(navigator.userAgent||'n/a')); }catch(e){}
+      })();
+    </script>
+  </body>
+</html>
